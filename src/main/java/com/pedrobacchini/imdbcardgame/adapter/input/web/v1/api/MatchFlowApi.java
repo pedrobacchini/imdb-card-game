@@ -1,6 +1,7 @@
 package com.pedrobacchini.imdbcardgame.adapter.input.web.v1.api;
 
-import com.pedrobacchini.imdbcardgame.adapter.input.web.v1.api.request.ContinueOrStartGameRequest;
+import com.pedrobacchini.imdbcardgame.adapter.input.web.v1.api.request.ContinueOrStartMatchRequest;
+import com.pedrobacchini.imdbcardgame.adapter.input.web.v1.api.response.MatchCurrentStatusResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,13 +12,13 @@ import javax.validation.Valid;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-@Tag(name = "Game Flow")
-@RequestMapping(value = "/v1/game", produces = APPLICATION_JSON_VALUE)
-public interface GameFlowApi {
+@Tag(name = "Match Flow")
+@RequestMapping(value = "/v1/match", produces = APPLICATION_JSON_VALUE)
+public interface MatchFlowApi {
 
     @PostMapping(consumes = APPLICATION_JSON_VALUE)
-    void startAndContinueGame(@Valid @RequestBody ContinueOrStartGameRequest continueOrStartGameRequest);
+    MatchCurrentStatusResponse startAndContinueMatch(@Valid @RequestBody ContinueOrStartMatchRequest continueOrStartMatchRequest);
 
     @DeleteMapping(consumes = APPLICATION_JSON_VALUE)
-    void endGame();
+    void endMatch();
 }

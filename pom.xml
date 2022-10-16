@@ -11,8 +11,8 @@
 	<groupId>com.pedrobacchini</groupId>
 	<artifactId>imdbcardgame</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>imdb-card-game</name>
-	<description>card game style application, where two movies will be informed and the player must hit the one with the best rating on IMDB.</description>
+	<name>imdb-card-match</name>
+	<description>card match style application, where two movies will be informed and the player must hit the one with the best rating on IMDB.</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>

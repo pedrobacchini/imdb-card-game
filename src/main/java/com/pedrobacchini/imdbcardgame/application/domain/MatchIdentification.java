@@ -1,11 +1,11 @@
-package com.pedrobacchini.imdbcardgame.application.dto;
+package com.pedrobacchini.imdbcardgame.application.domain;
 
 import lombok.Builder;
 import lombok.Value;
 
 @Value
 @Builder
-public class GameIdentification {
+public class MatchIdentification {
 
     String playerId;
     String gameId;
