@@ -1,13 +1,5 @@
 package com.pedrobacchini.imdbcardgame.application.domain;
 
-import lombok.Builder;
-import lombok.Value;
-
-@Value
-@Builder
-public class MatchIdentification {
-
-    String playerId;
-    String matchId;
+public record MatchIdentification(String playerId, String matchId) {
 
 }

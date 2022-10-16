@@ -10,7 +10,7 @@ public class ContinueOrStartMatchRequest {
     String matchId;
 
     public MatchIdentification toDomain() {
-        return MatchIdentification.builder().playerId(playerId).matchId(matchId).build();
+        return new MatchIdentification(playerId, matchId);
     }
 
 }

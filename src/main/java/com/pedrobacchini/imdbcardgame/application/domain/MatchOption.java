@@ -1,9 +1,5 @@
 package com.pedrobacchini.imdbcardgame.application.domain;
 
-import lombok.Value;
+public record MatchOption(String option, Float score) {
 
-@Value
-public class MatchOption {
-    String firstOption;
-    String secondOption;
 }

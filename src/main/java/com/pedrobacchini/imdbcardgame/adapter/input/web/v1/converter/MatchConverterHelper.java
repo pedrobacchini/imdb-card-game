@@ -7,12 +7,12 @@ public class MatchConverterHelper {
 
     public static MatchStatusResponse toMatchStatusResponse(Match match) {
         return MatchStatusResponse.builder()
-            .playerId(match.getMatchIdentification().getPlayerId())
-            .matchId(match.getMatchIdentification().getMatchId())
+            .playerId(match.getMatchIdentification().playerId())
+            .matchId(match.getMatchIdentification().matchId())
             .points(match.getPoints())
             .fails(match.getFails())
-            .firstOption(match.getCurrentMatchOption().getFirstOption())
-            .secondOption(match.getCurrentMatchOption().getSecondOption())
+            .firstOption(match.getCurrentMatchOptions().firstOption().option())
+            .secondOption(match.getCurrentMatchOptions().secondOption().option())
             .build();
     }
 }
