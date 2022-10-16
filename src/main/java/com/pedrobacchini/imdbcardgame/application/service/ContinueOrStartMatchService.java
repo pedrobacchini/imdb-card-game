@@ -25,7 +25,7 @@ public class ContinueOrStartMatchService implements ContinueOrStartMatchUseCase 
     }
 
     private Match startNewMatch(final MatchIdentification matchIdentification) {
-        final var newMatch = new Match(matchIdentification.getPlayerId(), new MatchOption("1", "2"));
+        final var newMatch = new Match(matchIdentification, new MatchOption("1", "2"));
         matchRepositoryPort.save(newMatch);
         return newMatch;
     }
