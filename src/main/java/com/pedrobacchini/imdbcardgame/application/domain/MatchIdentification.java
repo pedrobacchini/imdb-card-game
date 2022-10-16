@@ -8,6 +8,6 @@ import lombok.Value;
 public class MatchIdentification {
 
     String playerId;
-    String gameId;
+    String matchId;
 
 }

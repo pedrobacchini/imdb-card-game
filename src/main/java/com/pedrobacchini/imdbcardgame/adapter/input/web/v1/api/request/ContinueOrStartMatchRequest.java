@@ -7,10 +7,10 @@ import lombok.Value;
 public class ContinueOrStartMatchRequest {
 
     String playerId;
-    String gameId;
+    String matchId;
 
     public MatchIdentification toDomain() {
-        return MatchIdentification.builder().playerId(playerId).gameId(gameId).build();
+        return MatchIdentification.builder().playerId(playerId).matchId(matchId).build();
     }
 
 }

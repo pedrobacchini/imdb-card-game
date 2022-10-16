@@ -5,8 +5,12 @@ import lombok.Value;
 
 @Value
 @Builder
-public class MatchCurrentStatusResponse {
+public class MatchStatusResponse {
 
+    String playerId;
+    String matchId;
+    int points;
+    int fails;
     String firstOption;
     String secondOption;
 
