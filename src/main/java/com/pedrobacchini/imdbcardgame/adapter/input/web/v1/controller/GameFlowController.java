@@ -1,8 +1,8 @@
 package com.pedrobacchini.imdbcardgame.adapter.input.web.v1.controller;
 
 import com.pedrobacchini.imdbcardgame.adapter.input.web.v1.api.GameFlowApi;
-import com.pedrobacchini.imdbcardgame.adapter.input.web.v1.api.request.StartAndContinueGameRequest;
-import com.pedrobacchini.imdbcardgame.application.port.input.StartAndContinueGameUseCase;
+import com.pedrobacchini.imdbcardgame.adapter.input.web.v1.api.request.ContinueOrStartGameRequest;
+import com.pedrobacchini.imdbcardgame.application.port.input.ContinueOrStartGameUseCase;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -10,15 +10,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class GameFlowController implements GameFlowApi {
 
-    private final StartAndContinueGameUseCase startAndContinueGameUseCase;
+    private final ContinueOrStartGameUseCase continueOrStartGameUseCase;
 
-    public GameFlowController(final StartAndContinueGameUseCase startAndContinueGameUseCase) {
-        this.startAndContinueGameUseCase = startAndContinueGameUseCase;
+    public GameFlowController(final ContinueOrStartGameUseCase continueOrStartGameUseCase) {
+        this.continueOrStartGameUseCase = continueOrStartGameUseCase;
     }
 
     @Override
-    public void startAndContinueGame(StartAndContinueGameRequest startAndContinueGameRequest) {
-        startAndContinueGameUseCase.execute(startAndContinueGameRequest.toDomain());
+    public void startAndContinueGame(ContinueOrStartGameRequest continueOrStartGameRequest) {
+        continueOrStartGameUseCase.execute(continueOrStartGameRequest.toDTO());
     }
 
     @Override

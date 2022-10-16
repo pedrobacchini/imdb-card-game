@@ -1,6 +1,6 @@
 package com.pedrobacchini.imdbcardgame.adapter.input.web.v1.api;
 
-import com.pedrobacchini.imdbcardgame.adapter.input.web.v1.api.request.StartAndContinueGameRequest;
+import com.pedrobacchini.imdbcardgame.adapter.input.web.v1.api.request.ContinueOrStartGameRequest;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +16,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public interface GameFlowApi {
 
     @PostMapping(consumes = APPLICATION_JSON_VALUE)
-    void startAndContinueGame(@Valid @RequestBody StartAndContinueGameRequest startAndContinueGameRequest);
+    void startAndContinueGame(@Valid @RequestBody ContinueOrStartGameRequest continueOrStartGameRequest);
 
     @DeleteMapping(consumes = APPLICATION_JSON_VALUE)
     void endGame();
