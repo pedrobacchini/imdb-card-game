@@ -21,4 +21,8 @@ public class Match {
         return new Match(matchIdentification, matchGenerationStrategy);
     }
 
+    public void nextPhase(final String playerChoice) {
+//        MatchValidator.validatePlayerChoice(this, playerChoice);
+    }
+
 }
