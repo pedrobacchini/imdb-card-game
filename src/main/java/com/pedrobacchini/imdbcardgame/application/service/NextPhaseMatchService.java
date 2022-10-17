@@ -22,18 +22,12 @@ public class NextPhaseMatchService implements NextPhaseMatchUseCase {
     @Override
     public Match execute(final NextPhaseMatchCommand nextPhaseMatchCommand) {
         return matchRepositoryPort.findGameByIdentification(nextPhaseMatchCommand.matchIdentification())
-            .map(match -> nextPhase(match, nextPhaseMatchCommand.playerChoice()))
+            .map(match -> match.nextPhase(nextPhaseMatchCommand.playerChoice()))
             .orElseThrow(notFound(nextPhaseMatchCommand));
     }
 
     private Supplier<NotFoundException> notFound(final NextPhaseMatchCommand nextPhaseMatchCommand) {
         return () -> new NotFoundException("Match with Identification %s was not found".formatted(nextPhaseMatchCommand.matchIdentification()));
-    }
-
-    private Match nextPhase(final Match match, final String playerChoice) {
-        //        if(!playerChoice.equals(match.getCurrentMatchOptions().firstOption().option()) && )
-        match.nextPhase(playerChoice);
-        return match;
     }
 
 }
