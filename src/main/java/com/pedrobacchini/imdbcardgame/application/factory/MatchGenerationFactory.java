@@ -1,4 +1,4 @@
-package com.pedrobacchini.imdbcardgame.application.service;
+package com.pedrobacchini.imdbcardgame.application.factory;
 
 import com.pedrobacchini.imdbcardgame.application.config.ImdbCardGameProperty;
 import com.pedrobacchini.imdbcardgame.application.domain.AlphabetGenerationStrategy;

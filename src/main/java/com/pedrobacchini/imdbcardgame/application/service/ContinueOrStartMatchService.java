@@ -2,6 +2,7 @@ package com.pedrobacchini.imdbcardgame.application.service;
 
 import com.pedrobacchini.imdbcardgame.application.domain.Match;
 import com.pedrobacchini.imdbcardgame.application.domain.MatchIdentification;
+import com.pedrobacchini.imdbcardgame.application.factory.MatchGenerationFactory;
 import com.pedrobacchini.imdbcardgame.application.port.input.ContinueOrStartMatchUseCase;
 import com.pedrobacchini.imdbcardgame.application.port.output.MatchRepositoryPort;
 import lombok.extern.slf4j.Slf4j;
