@@ -5,40 +5,73 @@ import lombok.Getter;
 @Getter
 public class Match {
 
+    private static final int FAILS_TO_OVER = 3;
     private final MatchIdentification matchIdentification;
+    private final MatchOptionsGenerationStrategy matchOptionsGenerationStrategy;
     private int points = 0;
     private int fails = 0;
     private MatchOptions currentMatchOptions;
-    private final MatchOptionsGenerationStrategy matchOptionsGenerationStrategy;
+    private MatchStatus status = MatchStatus.PLAYING_GAME;
 
-    private Match(final MatchIdentification matchIdentification, final MatchOptionsGenerationStrategy matchOptionsGenerationStrategy) {
+    public enum MatchStatus {
+        PLAYING_GAME,
+        GAME_OVER
+    }
+
+    private Match(
+        final MatchIdentification matchIdentification,
+        final MatchOptionsGenerationStrategy matchOptionsGenerationStrategy) {
         this.matchIdentification = matchIdentification;
         this.matchOptionsGenerationStrategy = matchOptionsGenerationStrategy;
         this.currentMatchOptions = matchOptionsGenerationStrategy.generateInitialMatchOptions();
     }
 
-    public static Match start(final MatchIdentification matchIdentification, final MatchOptionsGenerationStrategy matchOptionsGenerationStrategy) {
+    public static Match start(
+        final MatchIdentification matchIdentification,
+        final MatchOptionsGenerationStrategy matchOptionsGenerationStrategy) {
         return new Match(matchIdentification, matchOptionsGenerationStrategy);
     }
 
-    public Match nextPhase(final String playerChoice) {
-        if (playerChoice.equals(currentMatchOptions.firstOption().option())) {
-            applyOption(currentMatchOptions.firstOption());
-        } else if (playerChoice.equals(currentMatchOptions.secondOption().option())) {
-            applyOption(currentMatchOptions.secondOption());
-        } else {
-            //            TODO add custom exception
-            throw new IllegalArgumentException();
+    public Match nextPlayerMovement(final String playerMove) {
+        applyPlayerMovement(playerMove);
+        final var matchStatusAfterMovement = analysisMatchAlreadyOverByFails(this.fails);
+        switch (matchStatusAfterMovement) {
+            case GAME_OVER -> gameOver();
+            case PLAYING_GAME -> ifExistsNextOptionUpdateCurrentMatchOptionsElseGameOver();
         }
         return this;
     }
 
-    private void applyOption(final MatchOption matchOption) {
+    private void applyPlayerMovement(final String playerMove) {
+        if (playerMove.equals(currentMatchOptions.firstOption().option())) {
+            applyPlayerOption(currentMatchOptions.firstOption());
+        } else if (playerMove.equals(currentMatchOptions.secondOption().option())) {
+            applyPlayerOption(currentMatchOptions.secondOption());
+        } else {
+            throw new IllegalArgumentException("invalid player movement");
+        }
+    }
+
+    private void applyPlayerOption(final MatchOption matchOption) {
         if (matchOption.equals(currentMatchOptions.rightOption())) points++;
         else fails++;
-        currentMatchOptions = matchOptionsGenerationStrategy.generateNextMatchOptions()
-            //            TODO add custom exception
-            .orElseThrow(IllegalStateException::new);
+    }
+
+    private void gameOver() {
+        this.status = MatchStatus.GAME_OVER;
+        this.currentMatchOptions = null;
+    }
+
+    private void ifExistsNextOptionUpdateCurrentMatchOptionsElseGameOver() {
+        final var matchOptionsOptional = matchOptionsGenerationStrategy.generateNextMatchOptions();
+        if (matchOptionsOptional.isPresent())
+            this.currentMatchOptions = matchOptionsOptional.get();
+        else gameOver();
+    }
+
+    private static MatchStatus analysisMatchAlreadyOverByFails(int fails) {
+        if (fails >= FAILS_TO_OVER) return MatchStatus.GAME_OVER;
+        else return MatchStatus.PLAYING_GAME;
     }
 
 }

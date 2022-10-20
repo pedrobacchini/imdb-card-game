@@ -24,7 +24,7 @@ public class ContinueOrStartMatchService implements ContinueOrStartMatchUseCase 
 
     @Override
     public Match execute(final MatchIdentification matchIdentification) {
-        return matchRepositoryPort.findGameByIdentification(matchIdentification)
+        return matchRepositoryPort.findByIdentification(matchIdentification)
             .orElseGet(() -> startNewMatch(matchIdentification));
     }
 

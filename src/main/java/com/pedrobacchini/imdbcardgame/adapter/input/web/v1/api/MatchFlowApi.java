@@ -1,7 +1,7 @@
 package com.pedrobacchini.imdbcardgame.adapter.input.web.v1.api;
 
 import com.pedrobacchini.imdbcardgame.adapter.input.web.v1.api.request.ContinueOrStartMatchRequest;
-import com.pedrobacchini.imdbcardgame.adapter.input.web.v1.api.request.NextPhaseMatchRequest;
+import com.pedrobacchini.imdbcardgame.adapter.input.web.v1.api.request.NextPlayerMovimentRequest;
 import com.pedrobacchini.imdbcardgame.adapter.input.web.v1.api.response.MatchStatusResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,8 +21,8 @@ public interface MatchFlowApi {
     @PutMapping(consumes = APPLICATION_JSON_VALUE)
     MatchStatusResponse continueOrStartMatch(@Valid @RequestBody ContinueOrStartMatchRequest continueOrStartMatchRequest);
 
-    @PostMapping(path = "/phase",consumes = APPLICATION_JSON_VALUE)
-    MatchStatusResponse nextPhaseMatch(@Valid @RequestBody NextPhaseMatchRequest nextPhaseMatchRequest);
+    @PostMapping(path = "/move",consumes = APPLICATION_JSON_VALUE)
+    MatchStatusResponse nextPlayerMoviment(@Valid @RequestBody NextPlayerMovimentRequest nextPlayerMovimentRequest);
 
     @DeleteMapping(consumes = APPLICATION_JSON_VALUE)
     void endMatch();

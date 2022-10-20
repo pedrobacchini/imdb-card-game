@@ -7,7 +7,9 @@ import java.util.Optional;
 
 public interface MatchRepositoryPort {
 
-    Optional<Match> findGameByIdentification(MatchIdentification matchIdentification);
+    Optional<Match> findByIdentification(MatchIdentification matchIdentification);
+
+    Optional<Match> findByIdentificationAndStatus(final MatchIdentification matchIdentification, final Match.MatchStatus matchStatus);
 
     void save(Match match);
 }

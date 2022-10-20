@@ -15,8 +15,19 @@ public class MatchRepositoryRepository implements MatchRepositoryPort {
     public Map<MatchIdentification, Match> gameDatasource = new HashMap<>();
 
     @Override
-    public Optional<Match> findGameByIdentification(final MatchIdentification matchIdentification) {
+    public Optional<Match> findByIdentification(final MatchIdentification matchIdentification) {
         return Optional.ofNullable(gameDatasource.get(matchIdentification));
+    }
+
+    @Override
+    public Optional<Match> findByIdentificationAndStatus(
+        final MatchIdentification matchIdentification,
+        final Match.MatchStatus matchStatus) {
+        return findByIdentification(matchIdentification)
+            .map(match -> {
+                if (match.getStatus().equals(matchStatus)) return match;
+                else return null;
+            });
     }
 
     @Override
