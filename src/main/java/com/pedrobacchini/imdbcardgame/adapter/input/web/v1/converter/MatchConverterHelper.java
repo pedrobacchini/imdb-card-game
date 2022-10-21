@@ -5,6 +5,10 @@ import com.pedrobacchini.imdbcardgame.application.domain.Match;
 
 public final class MatchConverterHelper {
 
+    private MatchConverterHelper() {
+        throw new IllegalStateException("Utility class");
+    }
+
     public static MatchStatusResponse toMatchStatusResponse(Match match) {
         final var builder = MatchStatusResponse.builder()
             .playerId(match.getMatchIdentification().playerId())

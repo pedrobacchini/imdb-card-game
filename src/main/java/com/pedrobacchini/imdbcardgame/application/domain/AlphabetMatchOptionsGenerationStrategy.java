@@ -12,10 +12,9 @@ import java.util.stream.Collectors;
 
 public class AlphabetMatchOptionsGenerationStrategy implements MatchOptionsGenerationStrategy {
 
-    private final static int NUMBER_OF_CHOICES = 2;
-    private final static ImmutableSet<Character> TYPES_TO_CHOOSE = ImmutableSet.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'L', 'M', 'N',
+    private static final int NUMBER_OF_CHOICES = 2;
+    private static final ImmutableSet<Character> TYPES_TO_CHOOSE = ImmutableSet.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'L', 'M', 'N',
         'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z');
-
     private final Set<MatchOptions> matchOptionsAlreadyGenerate = new HashSet<>();
 
     public MatchOptions generateInitialMatchOptions() {
@@ -49,7 +48,7 @@ public class AlphabetMatchOptionsGenerationStrategy implements MatchOptionsGener
     private MatchOptions toMatchOptions(final Set<Character> characters) {
         final var combination = characters.stream().toList();
         final var randomOption = RandomUtils.nextBoolean();
-        final var fisrtOption = combination.get(randomOption ? 0 : 1 );
+        final var fisrtOption = combination.get(randomOption ? 0 : 1);
         final var secondOption = combination.get(randomOption ? 1 : 0);
         return new MatchOptions(
             new MatchOption(fisrtOption.toString(), (float) fisrtOption),
