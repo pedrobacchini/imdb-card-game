@@ -8,27 +8,32 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class AlphabetMatchOptionsGenerationStrategyTest {
 
     @Test
-    void shoudlCreateAlphabetMatchOptionsGenerationStrategyCorrectly() {
+    void givenCreatedAlphabetMatchOptionsGenerationStrategy_whenCallGenerateInitialMatchOptions_thenGenerateMatchOptionsCorrectly() {
         final var alphabetMatchOptionsGenerationStrategy = new AlphabetMatchOptionsGenerationStrategy();
         assertNotNull(alphabetMatchOptionsGenerationStrategy);
         final var actualInitialMatchOptions = alphabetMatchOptionsGenerationStrategy.generateInitialMatchOptions();
-        final var actualInitiaalFirstOption = actualInitialMatchOptions.firstOption();
-        assertNotNull(actualInitiaalFirstOption);
-        assertNotNull(actualInitiaalFirstOption.option());
-        assertNotNull(actualInitiaalFirstOption.score());
-        final var actualInitialSecondOption = actualInitialMatchOptions.secondOption();
-        assertNotNull(actualInitialSecondOption.option());
-        assertNotNull(actualInitialSecondOption.score());
+        assertNotNull(actualInitialMatchOptions);
+        assertNotNull(actualInitialMatchOptions.firstOption());
+        assertNotNull(actualInitialMatchOptions.firstOption().option());
+        assertNotNull(actualInitialMatchOptions.firstOption().score());
+        assertNotNull(actualInitialMatchOptions.secondOption());
+        assertNotNull(actualInitialMatchOptions.secondOption().option());
+        assertNotNull(actualInitialMatchOptions.secondOption().score());
+    }
+
+    @Test
+    void givenCreatedAlphabetMatchOptionsGenerationStrategy_whenCallGenerateNextMatchOptions_thenGenerateMatchOptionsCorrectly() {
+        final var alphabetMatchOptionsGenerationStrategy = new AlphabetMatchOptionsGenerationStrategy();
+        assertNotNull(alphabetMatchOptionsGenerationStrategy);
         final var actualNextMatchOptionsOptional = alphabetMatchOptionsGenerationStrategy.generateNextMatchOptions();
         assertTrue(actualNextMatchOptionsOptional.isPresent());
         final var actualNextMatchOptions = actualNextMatchOptionsOptional.get();
-        final var actualNextFirstOption = actualNextMatchOptions.firstOption();
-        assertNotNull(actualNextFirstOption);
-        assertNotNull(actualNextFirstOption.option());
-        assertNotNull(actualNextFirstOption.score());
-        final var actualNextSecondOption = actualNextMatchOptions.secondOption();
-        assertNotNull(actualNextSecondOption.option());
-        assertNotNull(actualNextSecondOption.score());
+        assertNotNull(actualNextMatchOptions.firstOption());
+        assertNotNull(actualNextMatchOptions.firstOption().option());
+        assertNotNull(actualNextMatchOptions.firstOption().score());
+        assertNotNull(actualNextMatchOptions.secondOption());
+        assertNotNull(actualNextMatchOptions.secondOption().option());
+        assertNotNull(actualNextMatchOptions.secondOption().score());
     }
 
 }

@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class MatchOptionsTest {
 
     @Test
-    void shouldFirstOptionAsRightOption() {
+    void givenAValidMatchOptions_whenCallRightOption_thenFirstOptionAsRightOption() {
         final var firstOption = new MatchOption("Z", (float) 'Z');
         final var secondOption = new MatchOption("A", (float) 'A');
         final var actualMatchOptions = new MatchOptions(firstOption, secondOption);
@@ -16,7 +16,7 @@ class MatchOptionsTest {
     }
 
     @Test
-    void shouldSecondOptionAsRightOption() {
+    void givenAValidMatchOptions_whenCallRightOption_thenSecondOptionAsRightOption() {
         final var firstOption = new MatchOption("A", (float) 'A');
         final var secondOption = new MatchOption("B", (float) 'B');
         final var actualMatchOptions = new MatchOptions(firstOption, secondOption);
