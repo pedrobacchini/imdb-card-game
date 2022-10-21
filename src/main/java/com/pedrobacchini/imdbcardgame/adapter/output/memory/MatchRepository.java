@@ -10,9 +10,9 @@ import java.util.Map;
 import java.util.Optional;
 
 @Repository
-public class MatchRepositoryRepository implements MatchRepositoryPort {
+public class MatchRepository implements MatchRepositoryPort {
 
-    public Map<MatchIdentification, Match> gameDatasource = new HashMap<>();
+    private static final Map<MatchIdentification, Match> gameDatasource = new HashMap<>();
 
     @Override
     public Optional<Match> findByIdentification(final MatchIdentification matchIdentification) {

@@ -16,7 +16,7 @@ public class AlphabetMatchOptionsGenerationStrategy implements MatchOptionsGener
     private final static ImmutableSet<Character> TYPES_TO_CHOOSE = ImmutableSet.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'L', 'M', 'N',
         'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z');
 
-    final Set<MatchOptions> matchOptionsAlreadyGenerate = new HashSet<>();
+    private final Set<MatchOptions> matchOptionsAlreadyGenerate = new HashSet<>();
 
     public MatchOptions generateInitialMatchOptions() {
         Set<MatchOptions> matchOptionsCombinations = generateMatchOptionsCombinations();
@@ -28,7 +28,7 @@ public class AlphabetMatchOptionsGenerationStrategy implements MatchOptionsGener
     public Optional<MatchOptions> generateNextMatchOptions() {
         Set<MatchOptions> matchOptionsCombinations = generateMatchOptionsCombinations();
         matchOptionsCombinations.removeAll(matchOptionsAlreadyGenerate);
-        if (matchOptionsCombinations.size() == 0) return Optional.empty();
+        if (matchOptionsCombinations.isEmpty()) return Optional.empty();
         final MatchOptions matchOptions = getRandomMatchOptions(matchOptionsCombinations);
         matchOptionsAlreadyGenerate.add(matchOptions);
         return Optional.of(matchOptions);
