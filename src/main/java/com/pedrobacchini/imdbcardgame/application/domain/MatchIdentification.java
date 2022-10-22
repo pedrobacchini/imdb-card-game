@@ -1,5 +1,7 @@
 package com.pedrobacchini.imdbcardgame.application.domain;
 
-public record MatchIdentification(String playerId, String matchId) {
+import java.util.UUID;
+
+public record MatchIdentification(UUID playerId, UUID matchId) {
 
 }

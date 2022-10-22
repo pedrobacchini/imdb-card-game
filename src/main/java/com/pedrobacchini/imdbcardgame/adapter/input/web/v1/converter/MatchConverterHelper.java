@@ -11,8 +11,8 @@ public final class MatchConverterHelper {
 
     public static MatchStatusResponse toMatchStatusResponse(Match match) {
         final var builder = MatchStatusResponse.builder()
-            .playerId(match.getMatchIdentification().playerId())
-            .matchId(match.getMatchIdentification().matchId())
+            .playerId(match.getMatchIdentification().playerId().toString())
+            .matchId(match.getMatchIdentification().matchId().toString())
             .status(match.getStatus().toString())
             .points(match.getPoints())
             .fails(match.getFails());

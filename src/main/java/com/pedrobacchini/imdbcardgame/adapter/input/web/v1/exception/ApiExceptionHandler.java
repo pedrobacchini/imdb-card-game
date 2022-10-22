@@ -28,8 +28,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         WebRequest request) {
         String shortMessage = "Invalid message";
         String stacktrace = ex.getCause() != null ? ex.getCause().toString() : ex.toString();
-        List<Error> errors = Collections.singletonList(new Error(shortMessage, stacktrace));
-        return handleExceptionInternal(ex, errors, headers, HttpStatus.BAD_REQUEST, request);
+        List<ApiError> apiErrors = Collections.singletonList(new ApiError(shortMessage, stacktrace));
+        return handleExceptionInternal(ex, apiErrors, headers, HttpStatus.BAD_REQUEST, request);
     }
 
     @Override
@@ -38,8 +38,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         HttpHeaders headers,
         HttpStatus status,
         WebRequest request) {
-        List<Error> errors = listOfErrors(ex.getBindingResult());
-        return handleExceptionInternal(ex, errors, headers, HttpStatus.BAD_REQUEST, request);
+        List<ApiError> apiErrors = listOfErrors(ex.getBindingResult());
+        return handleExceptionInternal(ex, apiErrors, headers, HttpStatus.BAD_REQUEST, request);
     }
 
 
@@ -47,19 +47,19 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleNotFoundException(NotFoundException ex, WebRequest request) {
         String shortMessage = "Resource not found";
         String stacktrace = ex.toString();
-        List<Error> errors = Collections.singletonList(new Error(shortMessage, stacktrace));
-        return handleExceptionInternal(ex, errors, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+        List<ApiError> apiErrors = Collections.singletonList(new ApiError(shortMessage, stacktrace));
+        return handleExceptionInternal(ex, apiErrors, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
     }
 
-    private List<Error> listOfErrors(BindingResult bindingResult) {
-        List<Error> errors = new ArrayList<>();
+    private List<ApiError> listOfErrors(BindingResult bindingResult) {
+        List<ApiError> apiErrors = new ArrayList<>();
 
         for (FieldError fieldError : bindingResult.getFieldErrors()) {
             String shortMessage = fieldError.getDefaultMessage();
             String stacktrace = fieldError.toString();
-            errors.add(new Error(shortMessage, stacktrace));
+            apiErrors.add(new ApiError(shortMessage, stacktrace));
         }
-        return errors;
+        return apiErrors;
     }
 
 }

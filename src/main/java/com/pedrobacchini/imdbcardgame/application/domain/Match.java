@@ -23,7 +23,11 @@ public class Match {
         final MatchOptionsGenerationStrategy matchOptionsGenerationStrategy) {
         this.matchIdentification = matchIdentification;
         this.matchOptionsGenerationStrategy = matchOptionsGenerationStrategy;
-        this.currentMatchOptions = matchOptionsGenerationStrategy.generateInitialMatchOptions();
+        if (matchOptionsGenerationStrategy != null) this.currentMatchOptions = matchOptionsGenerationStrategy.generateInitialMatchOptions();
+    }
+
+    public void validate() {
+        new MatchValidator(this).validate();
     }
 
     public static Match start(
@@ -32,28 +36,17 @@ public class Match {
         return new Match(matchIdentification, matchOptionsGenerationStrategy);
     }
 
-    public Match nextPlayerMovement(final String playerMove) {
+    public void nextPhase(final String playerMove) {
         applyPlayerMovement(playerMove);
         final var matchStatusAfterMovement = analysisMatchAlreadyOverByFails(this.fails);
         switch (matchStatusAfterMovement) {
             case GAME_OVER -> gameOver();
             case PLAYING_GAME -> ifExistsNextOptionUpdateCurrentMatchOptionsElseGameOver();
         }
-        return this;
     }
 
     private void applyPlayerMovement(final String playerMove) {
-        if (playerMove.equals(currentMatchOptions.firstOption().option())) {
-            applyPlayerOption(currentMatchOptions.firstOption());
-        } else if (playerMove.equals(currentMatchOptions.secondOption().option())) {
-            applyPlayerOption(currentMatchOptions.secondOption());
-        } else {
-            throw new IllegalArgumentException("invalid player movement");
-        }
-    }
-
-    private void applyPlayerOption(final MatchOption matchOption) {
-        if (matchOption.equals(currentMatchOptions.rightOption())) points++;
+        if (currentMatchOptions.isRightOption(playerMove)) points++;
         else fails++;
     }
 
