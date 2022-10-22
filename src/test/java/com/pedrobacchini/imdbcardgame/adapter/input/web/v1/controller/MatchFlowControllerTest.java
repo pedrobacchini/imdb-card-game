@@ -5,6 +5,7 @@ import com.pedrobacchini.imdbcardgame.adapter.input.web.v1.api.request.MatchIden
 import com.pedrobacchini.imdbcardgame.application.domain.AlphabetMatchOptionsGenerationStrategy;
 import com.pedrobacchini.imdbcardgame.application.domain.Match;
 import com.pedrobacchini.imdbcardgame.application.domain.MatchIdentification;
+import com.pedrobacchini.imdbcardgame.application.port.input.MatchOverUseCase;
 import com.pedrobacchini.imdbcardgame.application.port.input.NextMatchPhaseUseCase;
 import com.pedrobacchini.imdbcardgame.application.port.input.StartOrContinueMatchUseCase;
 import org.junit.jupiter.api.Test;
@@ -18,6 +19,7 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -36,11 +38,14 @@ class MatchFlowControllerTest {
     @Mock
     private NextMatchPhaseUseCase nextMatchPhaseUseCase;
 
+    @Mock
+    private MatchOverUseCase matchOverUseCase;
+
     @Test
     void givenAValidStartOrContinueMatchRequest_whenCallsStartOrContinueMatch_shouldReturnNewMatchOrContinueMatch() {
         final var expectedPlayerId = UUID.randomUUID();
         final var expectedMatchId = UUID.randomUUID();
-        final var matchIdentification = new MatchIdentification(expectedPlayerId, expectedMatchId);
+        final var matchIdentification = new MatchIdentification(UUID.randomUUID(), UUID.randomUUID());
         final var matchIdentificationRequest = new MatchIdentificationRequest(expectedPlayerId.toString(), expectedMatchId.toString());
         final var expectedMatch = Match.start(matchIdentification, new AlphabetMatchOptionsGenerationStrategy());
 
@@ -54,6 +59,7 @@ class MatchFlowControllerTest {
             return true;
         }));
         verify(nextMatchPhaseUseCase, never()).execute(any());
+        verify(matchOverUseCase, never()).execute(any());
         assertEquals(expectedMatch.getMatchIdentification().playerId().toString(), actualMatchStatusResponse.getPlayerId());
         assertEquals(expectedMatch.getMatchIdentification().matchId().toString(), actualMatchStatusResponse.getMatchId());
         assertEquals(expectedMatch.getStatus().toString(), actualMatchStatusResponse.getStatus());
@@ -84,6 +90,35 @@ class MatchFlowControllerTest {
             assertEquals(expectedPlayerId, arg.matchIdentification().playerId());
             assertEquals(expectedMatchId, arg.matchIdentification().matchId());
             assertEquals(expectedPlayerMove, arg.playerMove());
+            return true;
+        }));
+        verify(matchOverUseCase, never()).execute(any());
+        assertEquals(expectedMatch.getMatchIdentification().playerId().toString(), actualMatchStatusResponse.getPlayerId());
+        assertEquals(expectedMatch.getMatchIdentification().matchId().toString(), actualMatchStatusResponse.getMatchId());
+        assertEquals(expectedMatch.getStatus().toString(), actualMatchStatusResponse.getStatus());
+        assertEquals(expectedMatch.getPoints(), actualMatchStatusResponse.getPoints());
+        assertEquals(expectedMatch.getFails(), actualMatchStatusResponse.getFails());
+        assertEquals(expectedMatch.getCurrentMatchOptions().firstOption().option(), actualMatchStatusResponse.getFirstOption());
+        assertEquals(expectedMatch.getCurrentMatchOptions().secondOption().option(), actualMatchStatusResponse.getSecondOption());
+    }
+
+    @Test
+    void givenAValidMatchIdentification_whenCallsNextMatchPhase_shouldReturnMatchWithNewStatus() {
+        final var expectedPlayerId = UUID.randomUUID();
+        final var expectedMatchId = UUID.randomUUID();
+        final var matchIdentification = new MatchIdentification(expectedPlayerId, expectedMatchId);
+        final var matchIdentificationRequest = new MatchIdentificationRequest(expectedPlayerId.toString(), expectedMatchId.toString());
+        final var expectedMatch = Match.start(matchIdentification, new AlphabetMatchOptionsGenerationStrategy());
+
+        when(matchOverUseCase.execute(eq(matchIdentification))).thenReturn(expectedMatch);
+
+        final var actualMatchStatusResponse = matchFlowController.matchOver(matchIdentificationRequest);
+
+        verify(startOrContinueMatchUseCase, never()).execute(any());
+        verify(nextMatchPhaseUseCase, never()).execute(any());
+        verify(matchOverUseCase, times(1)).execute(argThat(arg -> {
+            assertEquals(expectedPlayerId, arg.playerId());
+            assertEquals(expectedMatchId, arg.matchId());
             return true;
         }));
         assertEquals(expectedMatch.getMatchIdentification().playerId().toString(), actualMatchStatusResponse.getPlayerId());

@@ -36,9 +36,7 @@ class StartOrContinueMatchServiceTest {
 
     @Test
     void givenAValidIdentification_whenCallsStartOrContinueMatch_shouldReturnNewStartMatch() {
-        final var expectedPlayerId = UUID.randomUUID();
-        final var expectedMatchId = UUID.randomUUID();
-        final var expectedMatchIdentification = new MatchIdentification(expectedPlayerId, expectedMatchId);
+        final var expectedMatchIdentification = new MatchIdentification(UUID.randomUUID(), UUID.randomUUID());
         final var expectedMatchOptionsGenerationStrategy = new AlphabetMatchOptionsGenerationStrategy();
 
         when(matchRepositoryPort.findByIdentification(eq(expectedMatchIdentification)))
@@ -55,11 +53,8 @@ class StartOrContinueMatchServiceTest {
 
     @Test
     void givenAValidIdentification_whenCallsStartOrContinueMatch_shouldReturnFoundMatch() {
-        final var expectedPlayerId = UUID.randomUUID();
-        final var expectedMatchId = UUID.randomUUID();
-        final var expectedMatchIdentification = new MatchIdentification(expectedPlayerId, expectedMatchId);
-        final var expectedMatchOptionsGenerationStrategy = new AlphabetMatchOptionsGenerationStrategy();
-        final var expectedMatch = Match.start(expectedMatchIdentification, expectedMatchOptionsGenerationStrategy);
+        final var expectedMatchIdentification = new MatchIdentification(UUID.randomUUID(), UUID.randomUUID());
+        final var expectedMatch = Match.start(expectedMatchIdentification, new AlphabetMatchOptionsGenerationStrategy());
 
         when(matchRepositoryPort.findByIdentification(eq(expectedMatchIdentification)))
             .thenReturn(Optional.of(expectedMatch));

@@ -15,9 +15,7 @@ class MatchConverterHelperTest {
 
     @Test
     void givenAOverMatch_whenCallsToMatchStatusResponse_shouldReturnMatchStatusResponseWithoutOptions() {
-        final var expectedPlayerId = UUID.randomUUID();
-        final var expectedMatchId = UUID.randomUUID();
-        final var matchIdentification = new MatchIdentification(expectedPlayerId, expectedMatchId);
+        final var matchIdentification = new MatchIdentification(UUID.randomUUID(), UUID.randomUUID());
         final var expectedMatch = Match.start(matchIdentification, new AlphabetMatchOptionsGenerationStrategy());
         final var matchOver = MatchTestUtil.forceGameOverByFails(expectedMatch);
 
