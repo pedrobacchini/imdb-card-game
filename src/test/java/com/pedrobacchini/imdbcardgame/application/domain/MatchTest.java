@@ -47,6 +47,17 @@ class MatchTest {
     }
 
     @Test
+    void givenAnInvalidNullIdentification_whenCallStarMatchAndValidate_thenShouldReceiveError() {
+        final var expectedErrorMessage = "'identification' should not be null";
+        final var expectedMatchOptionsGenerationStrategy = new AlphabetMatchOptionsGenerationStrategy();
+
+        final var actualMatch = Match.start(null, expectedMatchOptionsGenerationStrategy);
+        final var actualException = assertThrows(DomainException.class, actualMatch::validate);
+
+        assertEquals(expectedErrorMessage, actualException.getMessage());
+    }
+
+    @Test
     void givenAnInvalidNullPlayerId_whenCallStarMatchAndValidate_thenShouldReceiveError() {
         final UUID expectedPlayerId = null;
         final var expectedErrorMessage = "'playerId' should not be null";

@@ -16,6 +16,7 @@ public class MatchValidator {
     }
 
     private void checkMatchIdentificationConstraints() {
+        if (this.match.getMatchIdentification() == null) throw new DomainException("'identification' should not be null");
         if (this.match.getMatchIdentification().playerId() == null) throw new DomainException("'playerId' should not be null");
         if (this.match.getMatchIdentification().matchId() == null) throw new DomainException("'matchId' should not be null");
     }
