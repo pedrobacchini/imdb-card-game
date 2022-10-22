@@ -45,14 +45,14 @@ public class Match {
         }
     }
 
-    private void applyPlayerMovement(final String playerMove) {
-        if (currentMatchOptions.isRightOption(playerMove)) points++;
-        else fails++;
-    }
-
     public void gameOver() {
         this.status = MatchStatus.GAME_OVER;
         this.currentMatchOptions = null;
+    }
+
+    private void applyPlayerMovement(final String playerMove) {
+        if (currentMatchOptions.isRightOption(playerMove)) points++;
+        else fails++;
     }
 
     private void ifExistsNextOptionUpdateCurrentMatchOptionsElseGameOver() {

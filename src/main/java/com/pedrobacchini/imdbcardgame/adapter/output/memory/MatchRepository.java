@@ -6,8 +6,10 @@ import com.pedrobacchini.imdbcardgame.application.port.output.MatchRepositoryPor
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
 public class MatchRepository implements MatchRepositoryPort {
@@ -33,6 +35,13 @@ public class MatchRepository implements MatchRepositoryPort {
     @Override
     public void save(final Match match) {
         gameDatasource.put(match.getMatchIdentification(), match);
+    }
+
+    @Override
+    public List<Match> findAllByStatus(final Match.MatchStatus matchStatus) {
+        return gameDatasource.values().stream()
+            .filter(match -> match.getStatus().equals(matchStatus))
+            .collect(Collectors.toList());
     }
 
 }

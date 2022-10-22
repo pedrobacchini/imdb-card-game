@@ -11,13 +11,11 @@ import com.pedrobacchini.imdbcardgame.application.domain.MatchIdentification;
 import com.pedrobacchini.imdbcardgame.application.port.input.MatchOverUseCase;
 import com.pedrobacchini.imdbcardgame.application.port.input.NextMatchPhaseUseCase;
 import com.pedrobacchini.imdbcardgame.application.port.input.StartOrContinueMatchUseCase;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Objects;
 import java.util.UUID;
 
-@Slf4j
 @RestController
 public class MatchFlowController implements MatchFlowApi {
 
