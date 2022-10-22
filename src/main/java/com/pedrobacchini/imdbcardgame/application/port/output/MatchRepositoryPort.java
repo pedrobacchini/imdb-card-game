@@ -3,7 +3,7 @@ package com.pedrobacchini.imdbcardgame.application.port.output;
 import com.pedrobacchini.imdbcardgame.application.domain.Match;
 import com.pedrobacchini.imdbcardgame.application.domain.MatchIdentification;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Optional;
 
 public interface MatchRepositoryPort {
@@ -14,6 +14,6 @@ public interface MatchRepositoryPort {
 
     void save(Match match);
 
-    List<Match> findAllByStatus(Match.MatchStatus gameOver);
+    Collection<Match> findAllByStatus(Match.MatchStatus gameOver);
 
 }

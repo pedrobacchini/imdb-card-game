@@ -1,9 +1,10 @@
 package com.pedrobacchini.imdbcardgame.application.domain;
 
+import com.google.common.base.Objects;
 import lombok.Getter;
 
 @Getter
-public class Match {
+public class Match implements Comparable<Match> {
 
     private static final int FAILS_TO_OVER = 3;
     private final MatchIdentification matchIdentification;
@@ -12,6 +13,11 @@ public class Match {
     private int fails = 0;
     private MatchOptions currentMatchOptions;
     private MatchStatus status = MatchStatus.PLAYING_GAME;
+
+    @Override
+    public int compareTo(final Match other) {
+        return Integer.compare(points, other.getPoints());
+    }
 
     public enum MatchStatus {
         PLAYING_GAME,
@@ -65,6 +71,22 @@ public class Match {
     private static MatchStatus analysisMatchAlreadyOverByFails(int fails) {
         if (fails >= FAILS_TO_OVER) return MatchStatus.GAME_OVER;
         else return MatchStatus.PLAYING_GAME;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        final Match match = (Match) o;
+        return points == match.points && fails == match.fails && Objects.equal(matchIdentification,
+            match.matchIdentification) && Objects.equal(matchOptionsGenerationStrategy,
+            match.matchOptionsGenerationStrategy) && Objects.equal(currentMatchOptions,
+            match.currentMatchOptions) && status == match.status;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(matchIdentification, matchOptionsGenerationStrategy, points, fails, currentMatchOptions, status);
     }
 
 }

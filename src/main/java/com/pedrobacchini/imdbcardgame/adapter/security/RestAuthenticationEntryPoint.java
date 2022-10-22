@@ -2,7 +2,6 @@ package com.pedrobacchini.imdbcardgame.adapter.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pedrobacchini.imdbcardgame.adapter.input.web.v1.exception.ApiError;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
@@ -12,12 +11,16 @@ import org.springframework.stereotype.Component;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Objects;
 
 @Component
-@RequiredArgsConstructor
 public final class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     private final ObjectMapper mapper;
+
+    public RestAuthenticationEntryPoint(final ObjectMapper mapper) {
+        this.mapper = Objects.requireNonNull(mapper);
+    }
 
     @Override
     public void commence(

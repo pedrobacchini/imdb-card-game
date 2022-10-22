@@ -5,8 +5,8 @@ import com.pedrobacchini.imdbcardgame.application.domain.MatchIdentification;
 import com.pedrobacchini.imdbcardgame.application.port.output.MatchRepositoryPort;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @Repository
 public class MatchRepository implements MatchRepositoryPort {
 
-    private static final Map<MatchIdentification, Match> gameDatasource = new HashMap<>();
+    private final Map<MatchIdentification, Match> gameDatasource = new HashMap<>();
 
     @Override
     public Optional<Match> findByIdentification(final MatchIdentification matchIdentification) {
@@ -38,7 +38,7 @@ public class MatchRepository implements MatchRepositoryPort {
     }
 
     @Override
-    public List<Match> findAllByStatus(final Match.MatchStatus matchStatus) {
+    public Collection<Match> findAllByStatus(final Match.MatchStatus matchStatus) {
         return gameDatasource.values().stream()
             .filter(match -> match.getStatus().equals(matchStatus))
             .collect(Collectors.toList());

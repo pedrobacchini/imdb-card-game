@@ -1,6 +1,5 @@
 package com.pedrobacchini.imdbcardgame.adapter.security;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -10,14 +9,23 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import java.util.Objects;
+
 @Configuration
-@RequiredArgsConstructor
 public class BasicSecurityConfig {
 
     private final UserDetailsService userDetailsService;
-
     private final RestAuthenticationEntryPoint authenticationEntryPoint;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    public BasicSecurityConfig(
+        final UserDetailsService userDetailsService,
+        final RestAuthenticationEntryPoint authenticationEntryPoint,
+        final BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.userDetailsService = Objects.requireNonNull(userDetailsService);
+        this.authenticationEntryPoint = Objects.requireNonNull(authenticationEntryPoint);
+        this.bCryptPasswordEncoder = Objects.requireNonNull(bCryptPasswordEncoder);
+    }
 
     @Bean
     public DaoAuthenticationProvider authProvider() {

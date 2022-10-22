@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
 
+import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -37,14 +38,15 @@ class MatchRepositoryTest {
 
         matchRepository.save(expectedMatch);
 
-        final var actualMatchOptional = matchRepository.findByIdentificationAndStatus(expectedMatch.getMatchIdentification(), expectedMatch.getStatus());
+        final var actualMatchOptional = matchRepository
+            .findByIdentificationAndStatus(expectedMatch.getMatchIdentification(), expectedMatch.getStatus());
         assertTrue(actualMatchOptional.isPresent());
         final var actualMatch = actualMatchOptional.get();
         assertEquals(expectedMatch, actualMatch);
     }
 
     @Test
-    void givenAValidMatchOver_whenCallsfindByIdentificationAndStatus_shouldReturnEmpty() {
+    void givenAValidMatchOver_whenCallsFindByIdentificationAndStatus_shouldReturnEmpty() {
         final var matchRepository = new MatchRepository();
         final var matchIdentification = new MatchIdentification(UUID.randomUUID(), UUID.randomUUID());
         final var expectedMatch = Match.start(matchIdentification, new AlphabetMatchOptionsGenerationStrategy());
@@ -53,6 +55,16 @@ class MatchRepositoryTest {
 
         final var actualMatchOptional = matchRepository.findByIdentificationAndStatus(matchIdentification, Match.MatchStatus.PLAYING_GAME);
         assertFalse(actualMatchOptional.isPresent());
+    }
+
+    @Test
+    void whenCallsFindAllByStatusWithGAME_OVER_shouldReturnCorrectly() {
+        final var matchRepository = new MatchRepository();
+        final var expectedMatches = MatchTestUtil.generateListMatchOver(5);
+        expectedMatches.forEach(matchRepository::save);
+
+        final var actualMatchs = matchRepository.findAllByStatus(Match.MatchStatus.GAME_OVER);
+        assertThat(expectedMatches).hasSameElementsAs(actualMatchs);
     }
 
 }
