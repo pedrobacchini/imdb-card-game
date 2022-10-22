@@ -8,7 +8,7 @@ import javax.validation.constraints.NotBlank;
 import java.util.UUID;
 
 @Value
-public class StartOrContinueMatchRequest {
+public class MatchIdentificationRequest {
 
     @NotBlank
     @Uuid

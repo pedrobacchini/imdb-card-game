@@ -1,7 +1,7 @@
 package com.pedrobacchini.imdbcardgame.adapter.input.web.v1.controller;
 
 import com.pedrobacchini.imdbcardgame.adapter.input.web.v1.api.request.PlayerMovimentRequest;
-import com.pedrobacchini.imdbcardgame.adapter.input.web.v1.api.request.StartOrContinueMatchRequest;
+import com.pedrobacchini.imdbcardgame.adapter.input.web.v1.api.request.MatchIdentificationRequest;
 import com.pedrobacchini.imdbcardgame.application.domain.AlphabetMatchOptionsGenerationStrategy;
 import com.pedrobacchini.imdbcardgame.application.domain.Match;
 import com.pedrobacchini.imdbcardgame.application.domain.MatchIdentification;
@@ -41,12 +41,12 @@ class MatchFlowControllerTest {
         final var expectedPlayerId = UUID.randomUUID();
         final var expectedMatchId = UUID.randomUUID();
         final var matchIdentification = new MatchIdentification(expectedPlayerId, expectedMatchId);
-        final var startOrContinueMatchRequest = new StartOrContinueMatchRequest(expectedPlayerId.toString(), expectedMatchId.toString());
+        final var matchIdentificationRequest = new MatchIdentificationRequest(expectedPlayerId.toString(), expectedMatchId.toString());
         final var expectedMatch = Match.start(matchIdentification, new AlphabetMatchOptionsGenerationStrategy());
 
         when(startOrContinueMatchUseCase.execute(any())).thenReturn(expectedMatch);
 
-        final var actualMatchStatusResponse = matchFlowController.startOrContinueMatch(startOrContinueMatchRequest);
+        final var actualMatchStatusResponse = matchFlowController.startOrContinueMatch(matchIdentificationRequest);
 
         verify(startOrContinueMatchUseCase, times(1)).execute(argThat((arg) -> {
             assertEquals(expectedPlayerId, arg.playerId());

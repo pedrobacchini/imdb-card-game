@@ -50,7 +50,7 @@ public class Match {
         else fails++;
     }
 
-    private void gameOver() {
+    public void gameOver() {
         this.status = MatchStatus.GAME_OVER;
         this.currentMatchOptions = null;
     }
