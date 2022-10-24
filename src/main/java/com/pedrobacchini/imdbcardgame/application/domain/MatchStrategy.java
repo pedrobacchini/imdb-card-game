@@ -3,13 +3,13 @@ package com.pedrobacchini.imdbcardgame.application.domain;
 import lombok.Getter;
 
 public enum MatchStrategy {
-    ALPHABET(new AlphabetMatchOptionsGenerationStrategy()),
-    IMDB(new ImdbMatchOptionsGenerationStrategy());
+    ALPHABET(AlphabetMatchOptionsGenerationStrategy.class),
+    IMDB(ImdbMatchOptionsGenerationStrategy.class);
 
     @Getter
-    private final MatchOptionsGenerationStrategy matchOptionsGenerationStrategy;
+    private final Class matchOptionsGenerationStrategy;
 
-    MatchStrategy(final MatchOptionsGenerationStrategy matchOptionsGenerationStrategy) {
+    MatchStrategy(final Class matchOptionsGenerationStrategy) {
         this.matchOptionsGenerationStrategy = matchOptionsGenerationStrategy;
     }
 }
