@@ -1,24 +1,20 @@
 package com.pedrobacchini.imdbcardgame.integration;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pedrobacchini.imdbcardgame.adapter.input.web.v1.api.request.MatchIdentificationRequest;
 import com.pedrobacchini.imdbcardgame.adapter.input.web.v1.api.request.PlayerMovimentRequest;
 import com.pedrobacchini.imdbcardgame.adapter.input.web.v1.api.response.MatchStatusResponse;
 import com.pedrobacchini.imdbcardgame.adapter.security.Player;
 import com.pedrobacchini.imdbcardgame.application.domain.Match;
 import com.pedrobacchini.imdbcardgame.application.domain.MatchIdentification;
+import com.pedrobacchini.imdbcardgame.application.domain.MatchOption;
 import com.pedrobacchini.imdbcardgame.application.port.output.MatchRepositoryPort;
-import io.restassured.RestAssured;
-import io.restassured.config.ObjectMapperConfig;
 import io.restassured.http.ContentType;
-import org.junit.jupiter.api.BeforeEach;
+import org.apache.commons.lang3.RandomUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.UUID;
@@ -30,29 +26,16 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
-@SpringBootTest(webEnvironment = RANDOM_PORT)
-class MatchIntegrationTest {
+class MatchIntegrationTest extends ApplicationIntegrationTest {
 
     public static final String PLAYER_1_USERNAME = "player1";
     public static final String PLAYER_1_PASS = "player1Pass";
-    @Value("http://localhost:${local.server.port}")
-    private String baseUri;
-    @Autowired
-    private ObjectMapper objectMapper;
+
     @Autowired
     private UserDetailsService userDetailsService;
     @Autowired
     private MatchRepositoryPort matchRepositoryPort;
-
-    @BeforeEach
-    public void before() {
-        RestAssured.baseURI = baseUri;
-        RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
-        RestAssured.config = RestAssured.config()
-            .objectMapperConfig(new ObjectMapperConfig().jackson2ObjectMapperFactory((cls, charset) -> objectMapper));
-    }
 
     @ParameterizedTest
     @MethodSource("generateAInvalidMatchIdentificationRequest")
@@ -177,7 +160,7 @@ class MatchIntegrationTest {
 
         final var playerMovimentRequest = new PlayerMovimentRequest(
             matchIdentificationRequest.getMatchId(),
-            matchInRepository.getCurrentMatchOptions().rightOption().option());
+            matchInRepository.getCurrentMatchOptions().rightOption().value());
 
         final var actualNextPhaseMatchStatusResponse = given()
             .auth().preemptive().basic(player1.getUsername(), PLAYER_1_PASS)
@@ -220,7 +203,7 @@ class MatchIntegrationTest {
 
         final var playerMovimentRequest = new PlayerMovimentRequest(
             matchIdentificationRequest.getMatchId(),
-            matchInRepository.getCurrentMatchOptions().wrongOption().option());
+            matchInRepository.getCurrentMatchOptions().wrongOption().value());
 
         final var actualNextPhaseMatchStatusResponse = given()
             .auth().preemptive().basic(player1.getUsername(), PLAYER_1_PASS)
@@ -243,9 +226,8 @@ class MatchIntegrationTest {
     }
 
     @Test
-    void givenManyValidRightPlayerMovementCommand_whenCallsNextMatchPhaseEndpoint_shouldReturnOverMatch() {
+    void givenManyValidPlayerMovementCommand_whenCallsNextMatchPhaseEndpoint_shouldReturnOverMatch() {
         final var extectedMatchId = UUID.randomUUID();
-        final var expectedFails = 0;
         final var expectedMatchStatus = Match.MatchStatus.GAME_OVER;
         final var matchIdentificationRequest = new MatchIdentificationRequest(extectedMatchId.toString());
         final var player1 = (Player) userDetailsService.loadUserByUsername(PLAYER_1_USERNAME);
@@ -263,12 +245,24 @@ class MatchIntegrationTest {
 
         var lastMatchStatusResponse = actualStartMatchStatusResponse;
         var expectedPoints = 0;
+        var expectedFails = 0;
         while (lastMatchStatusResponse.getStatus().equals(Match.MatchStatus.PLAYING_GAME.toString())) {
             final Match matchInRepository = getMatchInRepository(extectedMatchId, player1);
 
+            final var randomOption = RandomUtils.nextBoolean();
+
+            MatchOption option;
+            if(randomOption) {
+                option = matchInRepository.getCurrentMatchOptions().rightOption();
+                expectedPoints++;
+            }
+            else {
+                option = matchInRepository.getCurrentMatchOptions().wrongOption();
+                expectedFails++;
+            }
+
             final var playerMovimentRequest = new PlayerMovimentRequest(
-                matchIdentificationRequest.getMatchId(),
-                matchInRepository.getCurrentMatchOptions().rightOption().option());
+                matchIdentificationRequest.getMatchId(), option.value());
 
             lastMatchStatusResponse = given()
                 .auth().preemptive().basic(player1.getUsername(), PLAYER_1_PASS)
@@ -280,7 +274,6 @@ class MatchIntegrationTest {
                 .statusCode(200)
                 .extract()
                 .as(MatchStatusResponse.class);
-            expectedPoints++;
         }
 
         assertEquals(actualStartMatchStatusResponse.getPlayerId(), lastMatchStatusResponse.getPlayerId());
@@ -318,7 +311,7 @@ class MatchIntegrationTest {
 
             final var playerMovimentRequest = new PlayerMovimentRequest(
                 matchIdentificationRequest.getMatchId(),
-                matchInRepository.getCurrentMatchOptions().wrongOption().option());
+                matchInRepository.getCurrentMatchOptions().wrongOption().value());
 
             lastMatchStatusResponse = given()
                 .auth().preemptive().basic(player1.getUsername(), PLAYER_1_PASS)

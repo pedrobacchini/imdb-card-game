@@ -19,11 +19,7 @@ public class GetRankingService implements GetRankingUseCase {
 
     @Override
     public List<Match> execute() {
-        return matchRepositoryPort.findAllByStatus(Match.MatchStatus.GAME_OVER)
-            .stream()
-            .sorted()
-            .limit(LIMIT_RANKING)
-            .toList();
+        return matchRepositoryPort.findByStatusOrderedLimitedTo(Match.MatchStatus.GAME_OVER, LIMIT_RANKING);
     }
 
 }

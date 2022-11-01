@@ -3,9 +3,9 @@ package com.pedrobacchini.imdbcardgame.application.domain;
 public record MatchOptions(MatchOption firstOption, MatchOption secondOption) {
 
     public boolean isRightOption(final String option) {
-        if (option.equals(firstOption().option())) {
+        if (option.equals(firstOption().value())) {
             return isRightOption(firstOption());
-        } else if (option.equals(secondOption().option())) {
+        } else if (option.equals(secondOption().value())) {
             return isRightOption(secondOption());
         } else {
             throw new IllegalArgumentException("invalid option");

@@ -68,8 +68,8 @@ class MatchFlowControllerTest {
         assertEquals(expectedMatch.getStatus().toString(), actualMatchStatusResponse.getStatus());
         assertEquals(expectedMatch.getPoints(), actualMatchStatusResponse.getPoints());
         assertEquals(expectedMatch.getFails(), actualMatchStatusResponse.getFails());
-        assertEquals(expectedMatch.getCurrentMatchOptions().firstOption().option(), actualMatchStatusResponse.getFirstOption());
-        assertEquals(expectedMatch.getCurrentMatchOptions().secondOption().option(), actualMatchStatusResponse.getSecondOption());
+        assertEquals(expectedMatch.getCurrentMatchOptions().firstOption().value(), actualMatchStatusResponse.getFirstOption());
+        assertEquals(expectedMatch.getCurrentMatchOptions().secondOption().value(), actualMatchStatusResponse.getSecondOption());
     }
 
     @Test
@@ -78,7 +78,7 @@ class MatchFlowControllerTest {
         final var expectedMatchId = UUID.randomUUID();
         final var matchIdentification = new MatchIdentification(expectedPlayer.getPlayerId(), expectedMatchId);
         final var expectedMatch = Match.start(matchIdentification, new AlphabetMatchOptionsGenerationStrategy());
-        final var expectedPlayerMove = expectedMatch.getCurrentMatchOptions().rightOption().option();
+        final var expectedPlayerMove = expectedMatch.getCurrentMatchOptions().rightOption().value();
         final var playerMovimentRequest = new PlayerMovimentRequest(matchIdentification.matchId().toString(), expectedPlayerMove);
 
         when(nextMatchPhaseUseCase.execute(any())).thenReturn(expectedMatch);
@@ -98,8 +98,8 @@ class MatchFlowControllerTest {
         assertEquals(expectedMatch.getStatus().toString(), actualMatchStatusResponse.getStatus());
         assertEquals(expectedMatch.getPoints(), actualMatchStatusResponse.getPoints());
         assertEquals(expectedMatch.getFails(), actualMatchStatusResponse.getFails());
-        assertEquals(expectedMatch.getCurrentMatchOptions().firstOption().option(), actualMatchStatusResponse.getFirstOption());
-        assertEquals(expectedMatch.getCurrentMatchOptions().secondOption().option(), actualMatchStatusResponse.getSecondOption());
+        assertEquals(expectedMatch.getCurrentMatchOptions().firstOption().value(), actualMatchStatusResponse.getFirstOption());
+        assertEquals(expectedMatch.getCurrentMatchOptions().secondOption().value(), actualMatchStatusResponse.getSecondOption());
     }
 
     @Test
@@ -126,8 +126,8 @@ class MatchFlowControllerTest {
         assertEquals(expectedMatch.getStatus().toString(), actualMatchStatusResponse.getStatus());
         assertEquals(expectedMatch.getPoints(), actualMatchStatusResponse.getPoints());
         assertEquals(expectedMatch.getFails(), actualMatchStatusResponse.getFails());
-        assertEquals(expectedMatch.getCurrentMatchOptions().firstOption().option(), actualMatchStatusResponse.getFirstOption());
-        assertEquals(expectedMatch.getCurrentMatchOptions().secondOption().option(), actualMatchStatusResponse.getSecondOption());
+        assertEquals(expectedMatch.getCurrentMatchOptions().firstOption().value(), actualMatchStatusResponse.getFirstOption());
+        assertEquals(expectedMatch.getCurrentMatchOptions().secondOption().value(), actualMatchStatusResponse.getSecondOption());
     }
 
 }

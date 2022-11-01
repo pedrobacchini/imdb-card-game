@@ -14,10 +14,10 @@ class AlphabetMatchOptionsGenerationStrategyTest {
         final var actualInitialMatchOptions = alphabetMatchOptionsGenerationStrategy.generateInitialMatchOptions();
         assertNotNull(actualInitialMatchOptions);
         assertNotNull(actualInitialMatchOptions.firstOption());
-        assertNotNull(actualInitialMatchOptions.firstOption().option());
+        assertNotNull(actualInitialMatchOptions.firstOption().value());
         assertNotNull(actualInitialMatchOptions.firstOption().score());
         assertNotNull(actualInitialMatchOptions.secondOption());
-        assertNotNull(actualInitialMatchOptions.secondOption().option());
+        assertNotNull(actualInitialMatchOptions.secondOption().value());
         assertNotNull(actualInitialMatchOptions.secondOption().score());
     }
 
@@ -29,10 +29,10 @@ class AlphabetMatchOptionsGenerationStrategyTest {
         assertTrue(actualNextMatchOptionsOptional.isPresent());
         final var actualNextMatchOptions = actualNextMatchOptionsOptional.get();
         assertNotNull(actualNextMatchOptions.firstOption());
-        assertNotNull(actualNextMatchOptions.firstOption().option());
+        assertNotNull(actualNextMatchOptions.firstOption().value());
         assertNotNull(actualNextMatchOptions.firstOption().score());
         assertNotNull(actualNextMatchOptions.secondOption());
-        assertNotNull(actualNextMatchOptions.secondOption().option());
+        assertNotNull(actualNextMatchOptions.secondOption().value());
         assertNotNull(actualNextMatchOptions.secondOption().score());
     }
 

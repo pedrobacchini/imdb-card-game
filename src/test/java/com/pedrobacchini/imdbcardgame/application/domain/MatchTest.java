@@ -38,10 +38,10 @@ class MatchTest {
         assertEquals(expectedFails, actualMatch.getFails());
         assertNotNull(actualMatch.getCurrentMatchOptions());
         assertNotNull(actualMatch.getCurrentMatchOptions().firstOption());
-        assertNotNull(actualMatch.getCurrentMatchOptions().firstOption().option());
+        assertNotNull(actualMatch.getCurrentMatchOptions().firstOption().value());
         assertNotNull(actualMatch.getCurrentMatchOptions().firstOption().score());
         assertNotNull(actualMatch.getCurrentMatchOptions().secondOption());
-        assertNotNull(actualMatch.getCurrentMatchOptions().secondOption().option());
+        assertNotNull(actualMatch.getCurrentMatchOptions().secondOption().value());
         assertNotNull(actualMatch.getCurrentMatchOptions().secondOption().score());
         assertEquals(expectedStatus, actualMatch.getStatus());
     }
@@ -111,7 +111,7 @@ class MatchTest {
         final var actualMatch = Match.start(
             new MatchIdentification(expectedPlayerId, expectedMatchId), new AlphabetMatchOptionsGenerationStrategy());
         final var previousMatchOptions = actualMatch.getCurrentMatchOptions();
-        actualMatch.nextPhase(previousMatchOptions.rightOption().option());
+        actualMatch.nextPhase(previousMatchOptions.rightOption().value());
 
         assertEquals(expectedPlayerId, actualMatch.getMatchIdentification().playerId());
         assertEquals(expectedMatchId, actualMatch.getMatchIdentification().matchId());
@@ -132,7 +132,7 @@ class MatchTest {
         final var actualMatch = Match.start(
             new MatchIdentification(expectedPlayerId, expectedMatchId), new AlphabetMatchOptionsGenerationStrategy());
         final var previousMatchOptions = actualMatch.getCurrentMatchOptions();
-        actualMatch.nextPhase(previousMatchOptions.wrongOption().option());
+        actualMatch.nextPhase(previousMatchOptions.wrongOption().value());
 
         assertEquals(expectedPlayerId, actualMatch.getMatchIdentification().playerId());
         assertEquals(expectedMatchId, actualMatch.getMatchIdentification().matchId());
@@ -154,7 +154,7 @@ class MatchTest {
             new MatchIdentification(expectedPlayerId, expectedMatchId), new AlphabetMatchOptionsGenerationStrategy());
         while (actualMatch.getStatus() == Match.MatchStatus.PLAYING_GAME) {
             final var wrongOption = actualMatch.getCurrentMatchOptions().wrongOption();
-            actualMatch.nextPhase(wrongOption.option());
+            actualMatch.nextPhase(wrongOption.value());
         }
 
         assertEquals(expectedPlayerId, actualMatch.getMatchIdentification().playerId());
@@ -177,7 +177,7 @@ class MatchTest {
             new MatchIdentification(expectedPlayerId, expectedMatchId), expectedMatchOptionsGenerationStrategy);
         while (actualMatch.getStatus() == Match.MatchStatus.PLAYING_GAME) {
             final var rightOption = actualMatch.getCurrentMatchOptions().rightOption();
-            actualMatch.nextPhase(rightOption.option());
+            actualMatch.nextPhase(rightOption.value());
         }
 
         assertEquals(expectedPlayerId, actualMatch.getMatchIdentification().playerId());

@@ -58,13 +58,23 @@ class MatchRepositoryTest {
     }
 
     @Test
-    void whenCallsFindAllByStatusWithGAME_OVER_shouldReturnCorrectly() {
+    void whenCallsfindByStatusOrderedLimitedToWithGAME_OVER_shouldReturnCorrectly() {
         final var matchRepository = new MatchRepository();
         final var expectedMatches = MatchTestUtil.generateListMatchOver(5);
         expectedMatches.forEach(matchRepository::save);
 
-        final var actualMatchs = matchRepository.findAllByStatus(Match.MatchStatus.GAME_OVER);
+        final var actualMatchs = matchRepository.findByStatusOrderedLimitedTo(Match.MatchStatus.GAME_OVER, 5);
         assertThat(expectedMatches).hasSameElementsAs(actualMatchs);
+    }
+
+    @Test
+    void whenCallsfindByStatusOrderedLimitedToWithLimit2_shouldReturnCorrectly() {
+        final var matchRepository = new MatchRepository();
+        final var expectedMatches = MatchTestUtil.generateListMatchOver(5);
+        expectedMatches.forEach(matchRepository::save);
+
+        final var actualMatchs = matchRepository.findByStatusOrderedLimitedTo(Match.MatchStatus.GAME_OVER, 2);
+        assertEquals(2, actualMatchs.size());
     }
 
 }

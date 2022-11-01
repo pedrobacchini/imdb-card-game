@@ -11,7 +11,7 @@ class MatchOptionsTest {
         final var firstOption = new MatchOption("option1", 10F);
         final var secondOption = new MatchOption("option2", 1F);
         final var actualMatchOptions = new MatchOptions(firstOption, secondOption);
-        final var rightOption = actualMatchOptions.isRightOption(firstOption.option());
+        final var rightOption = actualMatchOptions.isRightOption(firstOption.value());
         assertTrue(rightOption);
     }
 
@@ -20,7 +20,7 @@ class MatchOptionsTest {
         final var firstOption = new MatchOption("option1", 1F);
         final var secondOption = new MatchOption("option2", 10F);
         final var actualMatchOptions = new MatchOptions(firstOption, secondOption);
-        final var rightOption = actualMatchOptions.isRightOption(secondOption.option());
+        final var rightOption = actualMatchOptions.isRightOption(secondOption.value());
         assertTrue(rightOption);
     }
 

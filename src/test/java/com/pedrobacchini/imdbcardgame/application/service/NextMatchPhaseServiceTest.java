@@ -37,7 +37,7 @@ class NextMatchPhaseServiceTest {
         final var expectedMatchIdentification = new MatchIdentification(UUID.randomUUID(), UUID.randomUUID());
         final var expectedMatch = Match.start(expectedMatchIdentification, new AlphabetMatchOptionsGenerationStrategy());
         final var matchOption = expectedMatch.getCurrentMatchOptions().rightOption();
-        final var playerMovementCommand = new PlayerMovementCommand(expectedMatchIdentification, matchOption.option());
+        final var playerMovementCommand = new PlayerMovementCommand(expectedMatchIdentification, matchOption.value());
 
         when(matchRepositoryPort.findByIdentificationAndStatus(eq(expectedMatchIdentification), eq(Match.MatchStatus.PLAYING_GAME)))
             .thenReturn(Optional.of(expectedMatch));

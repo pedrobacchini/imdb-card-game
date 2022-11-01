@@ -17,8 +17,8 @@ public final class MatchConverterHelper {
             .points(match.getPoints())
             .fails(match.getFails());
         if (match.getStatus().equals(Match.MatchStatus.PLAYING_GAME)) {
-            builder.firstOption(match.getCurrentMatchOptions().firstOption().option())
-                .secondOption(match.getCurrentMatchOptions().secondOption().option());
+            builder.firstOption(match.getCurrentMatchOptions().firstOption().value())
+                .secondOption(match.getCurrentMatchOptions().secondOption().value());
         }
         return builder.build();
     }

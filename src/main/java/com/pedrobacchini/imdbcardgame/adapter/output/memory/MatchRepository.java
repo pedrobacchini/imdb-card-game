@@ -5,8 +5,8 @@ import com.pedrobacchini.imdbcardgame.application.domain.MatchIdentification;
 import com.pedrobacchini.imdbcardgame.application.port.output.MatchRepositoryPort;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -38,10 +38,17 @@ public class MatchRepository implements MatchRepositoryPort {
     }
 
     @Override
-    public Collection<Match> findAllByStatus(final Match.MatchStatus matchStatus) {
+    public List<Match> findByStatusOrderedLimitedTo(final Match.MatchStatus matchStatus, final int limit) {
         return gameDatasource.values().stream()
             .filter(match -> match.getStatus().equals(matchStatus))
+            .sorted()
+            .limit(limit)
             .collect(Collectors.toList());
+    }
+
+    @Override
+    public void deleteAll() {
+        gameDatasource.clear();
     }
 
 }

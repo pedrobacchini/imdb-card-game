@@ -15,7 +15,7 @@ public class MatchTestUtil {
     public static Match forceGameOverByFails(Match match) {
         while (match.getStatus().equals(Match.MatchStatus.PLAYING_GAME)) {
             final var matchOption = match.getCurrentMatchOptions().wrongOption();
-            match.nextPhase(matchOption.option());
+            match.nextPhase(matchOption.value());
         }
         return match;
     }
@@ -26,7 +26,7 @@ public class MatchTestUtil {
         while (match.getStatus().equals(Match.MatchStatus.PLAYING_GAME)) {
             final var randomOption = RandomUtils.nextBoolean();
             final var matchOption = randomOption ? match.getCurrentMatchOptions().rightOption() : match.getCurrentMatchOptions().wrongOption();
-            match.nextPhase(matchOption.option());
+            match.nextPhase(matchOption.value());
         }
         return match;
     }

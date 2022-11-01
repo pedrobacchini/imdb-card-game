@@ -26,31 +26,16 @@ class GetRankingServiceTest {
 
     @Test
     void whenCallsGetRankingService_shouldReturnRankingOfMatchs() {
-        final var matchs = MatchTestUtil.generateListMatchOver(5);
-        when(matchRepositoryPort.findAllByStatus(eq(Match.MatchStatus.GAME_OVER)))
-            .thenReturn(matchs);
+        final var expectedMatchSize = 10;
+        final var expectedMatchs = MatchTestUtil.generateListMatchOver(expectedMatchSize);
+        when(matchRepositoryPort.findByStatusOrderedLimitedTo(eq(Match.MatchStatus.GAME_OVER), eq(GetRankingService.LIMIT_RANKING)))
+            .thenReturn(expectedMatchs);
 
         final var actualMatchs = getRankingService.execute();
 
-        verify(matchRepositoryPort, times(1)).findAllByStatus(eq(Match.MatchStatus.GAME_OVER));
-        assertEquals(5, actualMatchs.size());
-        final var expectedMatchs = matchs.stream().sorted().toList();
+        verify(matchRepositoryPort, times(1))
+            .findByStatusOrderedLimitedTo(eq(Match.MatchStatus.GAME_OVER), eq(GetRankingService.LIMIT_RANKING));
+        assertEquals(expectedMatchSize, actualMatchs.size());
         assertEquals(expectedMatchs, actualMatchs);
     }
-
-
-    @Test
-    void whenCallsGetRankingService_shouldReturnRankingOfMatchsLimited() {
-        final var matchs = MatchTestUtil.generateListMatchOver(15);
-        when(matchRepositoryPort.findAllByStatus(eq(Match.MatchStatus.GAME_OVER)))
-            .thenReturn(matchs);
-
-        final var actualMatchs = getRankingService.execute();
-
-        verify(matchRepositoryPort, times(1)).findAllByStatus(eq(Match.MatchStatus.GAME_OVER));
-        assertEquals(10, actualMatchs.size());
-        final var expectedMatchs = matchs.stream().sorted().limit(10).toList();
-        assertEquals(expectedMatchs, actualMatchs);
-    }
-
 }
