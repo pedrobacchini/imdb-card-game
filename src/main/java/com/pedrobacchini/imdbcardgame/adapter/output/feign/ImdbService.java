@@ -22,7 +22,7 @@ public class ImdbService implements ImdbPort {
 
     @Override
     public List<Movie> findMostPopularMovies(final int page) {
-        return imdbClient.findMostPopularMovies(imdbCardGameProperty.getImdbApi().getApiKey(), imdbCardGameProperty.getImdbApi().getLanguage(), page)
+        return imdbClient.findMostPopularMovies(imdbCardGameProperty.getImdbApi().getKey(), imdbCardGameProperty.getImdbApi().getLanguage(), page)
             .getResults().stream().map(imdbMovie -> new Movie(imdbMovie.getTitle(), imdbMovie.getVoteAverage())).collect(Collectors.toList());
     }
 

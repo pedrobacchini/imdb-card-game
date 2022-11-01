@@ -18,7 +18,7 @@ public class ImdbCardGameProperty {
     @Getter
     @Setter
     public static class ImdbApi {
-        private String apiKey;
+        private String key;
         private String language;
     }
 
