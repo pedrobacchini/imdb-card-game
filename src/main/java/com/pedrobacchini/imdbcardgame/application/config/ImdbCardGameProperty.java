@@ -12,4 +12,14 @@ public class ImdbCardGameProperty {
     @Getter
     private MatchStrategy matchStrategy = MatchStrategy.ALPHABET;
 
+    @Getter
+    private final ImdbApi imdbApi = new ImdbApi();
+
+    @Getter
+    @Setter
+    public static class ImdbApi {
+        private String apiKey;
+        private String language;
+    }
+
 }
