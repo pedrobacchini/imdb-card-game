@@ -39,8 +39,4 @@ public class MatchTestUtil {
         return matchList;
     }
 
-    public static Stream<Match> generateStreamMatchOver(int size) {
-        return generateListMatchOver(size).stream();
-    }
-
 }

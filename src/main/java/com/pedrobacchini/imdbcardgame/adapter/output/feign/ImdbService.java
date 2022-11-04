@@ -5,8 +5,8 @@ import com.pedrobacchini.imdbcardgame.application.domain.Movie;
 import com.pedrobacchini.imdbcardgame.application.port.output.ImdbPort;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,9 +21,9 @@ public class ImdbService implements ImdbPort {
     }
 
     @Override
-    public List<Movie> findMostPopularMovies(final int page) {
+    public Set<Movie> findMostPopularMovies(final int page) {
         return imdbClient.findMostPopularMovies(imdbCardGameProperty.getImdbApi().getKey(), imdbCardGameProperty.getImdbApi().getLanguage(), page)
-            .getResults().stream().map(imdbMovie -> new Movie(imdbMovie.getTitle(), imdbMovie.getVoteAverage())).collect(Collectors.toList());
+            .getResults().stream().map(imdbMovie -> new Movie(imdbMovie.getTitle(), imdbMovie.getVoteAverage())).collect(Collectors.toSet());
     }
 
 }

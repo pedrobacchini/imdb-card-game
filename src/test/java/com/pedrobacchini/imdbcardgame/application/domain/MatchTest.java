@@ -1,11 +1,9 @@
 package com.pedrobacchini.imdbcardgame.application.domain;
 
-import com.google.inject.internal.util.Lists;
 import com.pedrobacchini.imdbcardgame.application.exception.DomainException;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -169,7 +167,7 @@ class MatchTest {
         final var expectedPlayerId = UUID.randomUUID();
         final var expectedMatchId = UUID.randomUUID();
         final var expectedMatchOptionsGenerationStrategy = new TestMatchOptionsGenerationStrategy();
-        final var expectedPoints = 4;
+        final var expectedPoints = 3;
         final var expectedFails = 0;
         final var expectedStatus = Match.MatchStatus.GAME_OVER;
 
@@ -187,35 +185,10 @@ class MatchTest {
         assertEquals(expectedFails, actualMatch.getFails());
     }
 
-    static class TestMatchOptionsGenerationStrategy implements MatchOptionsGenerationStrategy {
+    static class TestMatchOptionsGenerationStrategy extends MatchOptionsGenerationStrategy {
 
-        List<MatchOptions> allMatchOptions = Lists.newArrayList(new MatchOptions(
-                new MatchOption("A", 1F),
-                new MatchOption("C", 3F)
-            ),
-            new MatchOptions(
-                new MatchOption("A", 1F),
-                new MatchOption("D", 4F)
-            ),
-            new MatchOptions(
-                new MatchOption("A", 1F),
-                new MatchOption("E", 5F)
-            ));
-
-        @Override
-        public MatchOptions generateInitialMatchOptions() {
-            return new MatchOptions(
-                new MatchOption("A", 1F),
-                new MatchOption("B", 2F)
-            );
-        }
-
-        @Override
-        public Optional<MatchOptions> generateNextMatchOptions() {
-            if (allMatchOptions.isEmpty()) return Optional.empty();
-            var matchOption = allMatchOptions.get(0);
-            allMatchOptions.remove(matchOption);
-            return Optional.of(matchOption);
+        protected TestMatchOptionsGenerationStrategy() {
+            super(Set.of(new Movie("A", 1F), new Movie("B", 2F), new Movie("C", 3F)));
         }
 
     }

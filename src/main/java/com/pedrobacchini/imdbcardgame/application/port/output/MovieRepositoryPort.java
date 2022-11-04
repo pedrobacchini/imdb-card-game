@@ -4,8 +4,10 @@ import com.pedrobacchini.imdbcardgame.application.domain.Movie;
 
 import java.util.Set;
 
-public interface ImdbPort {
+public interface MovieRepositoryPort {
 
-    Set<Movie> findMostPopularMovies(int page);
+    void saveAll(Set<Movie> mostPopularMovies);
+
+    Set<Movie> getAll();
 
 }
