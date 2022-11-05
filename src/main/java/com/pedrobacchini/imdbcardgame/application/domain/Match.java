@@ -48,6 +48,7 @@ public class Match {
         switch (matchStatusAfterMovement) {
             case GAME_OVER -> gameOver();
             case PLAYING_GAME -> ifExistsNextOptionUpdateCurrentMatchOptionsElseGameOver();
+            default -> throw new IllegalStateException("Unexpected value: " + matchStatusAfterMovement);
         }
     }
 
