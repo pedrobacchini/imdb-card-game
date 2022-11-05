@@ -75,7 +75,7 @@ public class Match {
     }
 
     public static Comparator<Match> rankingComparator() {
-        return Comparator.comparing(Match::getPoints).thenComparing(Match::getCreateAt);
+        return Comparator.comparing(Match::getPoints).reversed().thenComparing(Match::getCreateAt);
     }
 
     @Override
