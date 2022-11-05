@@ -41,7 +41,7 @@ public class MatchRepository implements MatchRepositoryPort {
     public List<Match> findByStatusOrderedLimitedTo(final Match.MatchStatus matchStatus, final int limit) {
         return gameDatasource.values().stream()
             .filter(match -> match.getStatus().equals(matchStatus))
-            .sorted()
+            .sorted(Match.rankingComparator())
             .limit(limit)
             .collect(Collectors.toList());
     }

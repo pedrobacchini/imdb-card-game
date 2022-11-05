@@ -2,6 +2,7 @@ package com.pedrobacchini.imdbcardgame.integration;
 
 import com.pedrobacchini.imdbcardgame.adapter.input.web.v1.api.response.MatchStatusResponse;
 import com.pedrobacchini.imdbcardgame.adapter.input.web.v1.converter.MatchConverterHelper;
+import com.pedrobacchini.imdbcardgame.application.domain.Match;
 import com.pedrobacchini.imdbcardgame.application.port.output.MatchRepositoryPort;
 import com.pedrobacchini.imdbcardgame.util.MatchTestUtil;
 import io.restassured.http.ContentType;
@@ -50,7 +51,7 @@ public class RankingIntegrationTest extends ApplicationIntegrationTest {
             .as(MatchStatusResponse[].class);
 
         final var expectedMatches = matches.stream()
-            .sorted()
+            .sorted(Match.rankingComparator())
             .map(MatchConverterHelper::toMatchStatusResponse)
             .toList();
         assertEquals(expectedMatchSize, as.length);
@@ -73,7 +74,7 @@ public class RankingIntegrationTest extends ApplicationIntegrationTest {
             .as(MatchStatusResponse[].class);
 
         final var expectedMatches = matches.stream()
-            .sorted()
+            .sorted(Match.rankingComparator())
             .limit(expectedMatchSize)
             .map(MatchConverterHelper::toMatchStatusResponse)
             .toList();

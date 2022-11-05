@@ -3,8 +3,11 @@ package com.pedrobacchini.imdbcardgame.application.domain;
 import com.google.common.base.Objects;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
+import java.util.Comparator;
+
 @Getter
-public class Match implements Comparable<Match> {
+public class Match {
 
     private static final int FAILS_TO_OVER = 3;
     private final MatchIdentification matchIdentification;
@@ -14,10 +17,7 @@ public class Match implements Comparable<Match> {
     private MatchOptions currentMatchOptions;
     private MatchStatus status = MatchStatus.PLAYING_GAME;
 
-    @Override
-    public int compareTo(final Match other) {
-        return Integer.compare(points, other.getPoints());
-    }
+    private final LocalDateTime createAt = LocalDateTime.now();
 
     public enum MatchStatus {
         PLAYING_GAME,
@@ -71,6 +71,10 @@ public class Match implements Comparable<Match> {
     private static MatchStatus analysisMatchAlreadyOverByFails(int fails) {
         if (fails >= FAILS_TO_OVER) return MatchStatus.GAME_OVER;
         else return MatchStatus.PLAYING_GAME;
+    }
+
+    public static Comparator<Match> rankingComparator() {
+        return Comparator.comparing(Match::getPoints).thenComparing(Match::getCreateAt);
     }
 
     @Override
