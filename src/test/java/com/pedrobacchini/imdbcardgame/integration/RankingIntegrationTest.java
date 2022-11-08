@@ -1,5 +1,6 @@
 package com.pedrobacchini.imdbcardgame.integration;
 
+import com.pedrobacchini.imdbcardgame.adapter.input.web.v1.api.constant.ApiRequestMappingConstants;
 import com.pedrobacchini.imdbcardgame.adapter.input.web.v1.api.response.MatchStatusResponse;
 import com.pedrobacchini.imdbcardgame.adapter.input.web.v1.converter.MatchConverterHelper;
 import com.pedrobacchini.imdbcardgame.application.domain.Match;
@@ -29,7 +30,7 @@ class RankingIntegrationTest extends ApplicationIntegrationTest {
         given()
             .contentType(ContentType.JSON)
             .when()
-            .get("/v1/ranking")
+            .get(ApiRequestMappingConstants.RANKING)
             .then()
             .statusCode(200)
             .body("size()", Matchers.equalTo(1));
@@ -44,7 +45,7 @@ class RankingIntegrationTest extends ApplicationIntegrationTest {
         final var as = given()
             .contentType(ContentType.JSON)
             .when()
-            .get("/v1/ranking")
+            .get(ApiRequestMappingConstants.RANKING)
             .then()
             .statusCode(200)
             .extract()
@@ -67,7 +68,7 @@ class RankingIntegrationTest extends ApplicationIntegrationTest {
         final var as = given()
             .contentType(ContentType.JSON)
             .when()
-            .get("/v1/ranking")
+            .get(ApiRequestMappingConstants.RANKING)
             .then()
             .statusCode(200)
             .extract()

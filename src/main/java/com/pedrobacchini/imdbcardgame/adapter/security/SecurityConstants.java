@@ -1,18 +1,16 @@
 package com.pedrobacchini.imdbcardgame.adapter.security;
 
+import com.pedrobacchini.imdbcardgame.adapter.input.web.v1.api.constant.ApiRequestMappingConstants;
+
 public class SecurityConstants {
 
     public static final String[] TEST_PUBLIC_MATCHERS = {
-            "/h2-console/**",
-            "/v2/api-docs",
-            "/configuration/ui",
-            "/swagger-resources/**",
-            "/configuration/**",
-            "/swagger-ui.html",
-            "/webjars/**"
+        "/api-docs/**",
+        "/swagger-ui/**"
     };
 
     public static final String[] PUBLIC_MATCHERS = {
-            "/v1/ranking",
+        ApiRequestMappingConstants.RANKING,
     };
+
 }
